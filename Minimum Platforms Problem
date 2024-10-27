@@ -1,0 +1,32 @@
+Minimum Platforms Problem
+
+Problem Statement
+
+Given the arrival and departure times of trains, determine the minimum number of platforms required at a railway station so that no train waits.
+
+Example
+If the arrival and departure times are as follows:
+
+Arrivals: [900, 940, 950, 1100, 1500, 1800]
+Departures: [910, 1200, 1120, 1130, 1900, 2000]
+Then, the minimum number of platforms required to accommodate all trains is 3.
+
+Approach
+
+This problem is solved by determining the maximum number of trains at the station at any time.
+
+Steps
+Sort the Arrival and Departure Times:
+Sorting both arr and dep arrays allows us to systematically check for overlapping train schedules.
+Two-Pointer Technique:
+Use two pointers, i and j, initialized to the beginning of the arr and dep arrays, respectively.
+Traverse the arrays using these pointers:
+If a train arrives (arr[i] <= dep[j]), increment the platform count and move to the next arrival.
+If a train departs (arr[i] > dep[j]), decrement the platform count and move to the next departure.
+Track the Maximum Platforms Required:
+At each step, record the maximum platform count reached, which is the answer to the problem.
+Complexity Analysis
+Time Complexity: 
+O(nlogn)
+O(nlogn), where n is the number of trains. This is due to sorting.
+Space Complexity: O(1) additional space, since we only use a few extra variables.
