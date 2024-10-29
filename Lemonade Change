@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    bool lemonadeChange(int N, vector<int> &bills) {
+        int fiveCount = 0, tenCount = 0;
+
+        for (int i = 0; i < N; i++) {
+            if (bills[i] == 5) {
+                fiveCount++;
+            } 
+            else if (bills[i] == 10) {
+                if (fiveCount == 0) return false; // Need a $5 bill as change
+                fiveCount--;
+                tenCount++;
+            } 
+            else { // bills[i] == 20
+                if (tenCount > 0 && fiveCount > 0) {
+                    tenCount--; // Give one $10 bill
+                    fiveCount--; // Give one $5 bill
+                } 
+                else if (fiveCount >= 3) {
+                    fiveCount -= 3; // Give three $5 bills
+                } 
+                else {
+                    return false; // Not enough change
+                }
+            }
+        }
+        return true; // Successfully provided change to all customers
+    }
+};
+
+int main() {
+    Solution solution;
+    
+    // Test case 1
+    int N1 = 5;
+    vector<int> bills1 = {5, 5, 5, 10, 20};
+    cout << "Test Case 1: " << (solution.lemonadeChange(N1, bills1) ? "True" : "False") << endl;
+    
+    // Test case 2
+    int N2 = 5;
+    vector<int> bills2 = {5, 5, 10, 10, 20};
+    cout << "Test Case 2: " << (solution.lemonadeChange(N2, bills2) ? "True" : "False") << endl;
+
+    return 0;
+}
