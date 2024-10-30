@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int getMinDiff(vector<int> &arr, int k) {
+        int n = arr.size();
+        if (n == 1) return 0; // If there's only one tower, the difference is zero.
+
+        // Sort the array to get towers in increasing order.
+        sort(arr.begin(), arr.end());
+
+        // Initial maximum difference (difference between highest and lowest towers).
+        int maxDiff = arr[n - 1] - arr[0];
+
+        // Initialize smallest and largest values after modifications
+        int smallest = arr[0] + k;
+        int largest = arr[n - 1] - k;
+
+        // Calculate the minimum possible difference
+        for (int i = 0; i < n - 1; i++) {
+            int minHeight = min(smallest, arr[i + 1] - k);
+            int maxHeight = max(largest, arr[i] + k);
+
+            if (minHeight < 0) continue; // Skip if any height goes negative
+
+            maxDiff = min(maxDiff, maxHeight - minHeight);
+        }
+        return maxDiff;
+    }
+};
+
+int main() {
+    Solution solution;
+    
+    // Test case 1
+    vector<int> arr1 = {1, 5, 8, 10};
+    int k1 = 2;
+    cout << "Minimum Difference for Test Case 1: " << solution.getMinDiff(arr1, k1) << endl;
+
+    // Test case 2
+    vector<int> arr2 = {3, 9, 12, 16, 20};
+    int k2 = 3;
+    cout << "Minimum Difference for Test Case 2: " << solution.getMinDiff(arr2, k2) << endl;
+
+    return 0;
+}
