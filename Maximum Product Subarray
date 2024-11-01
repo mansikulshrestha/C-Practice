@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int maxProduct(vector<int> &arr) {
+    int n = arr.size();
+    if (n == 0) return 0;
+
+    int maxProd = arr[0];
+    int minProd = arr[0];
+    int result = arr[0];
+
+    for (int i = 1; i < n; i++) {
+        if (arr[i] < 0) {
+            swap(maxProd, minProd); // Swap when encountering a negative element
+        }
+
+        // Calculate max and min products up to the current position
+        maxProd = max(arr[i], maxProd * arr[i]);
+        minProd = min(arr[i], minProd * arr[i]);
+
+        // Update the result with the maximum product found so far
+        result = max(result, maxProd);
+    }
+
+    return result;
+}
+
+int main() {
+    vector<int> arr1 = {6, -3, -10, 0, 2};
+    cout << "Maximum Product (Test Case 1): " << maxProduct(arr1) << endl;
+
+    vector<int> arr2 = {2, 3, 4, 5, -1, 0};
+    cout << "Maximum Product (Test Case 2): " << maxProduct(arr2) << endl;
+
+    vector<int> arr3 = {2, 3, 4};
+    cout << "Maximum Product (Test Case 3): " << maxProduct(arr3) << endl;
+
+    return 0;
+}
