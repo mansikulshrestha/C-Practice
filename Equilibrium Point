@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int equilibriumPoint(vector<int> &arr) {
+    int n = arr.size();
+    
+    // If there's only one element, it is the equilibrium point
+    if (n == 1) return 1;
+
+    // Step 1: Calculate the total sum of the array
+    int total_sum = 0;
+    for (int num : arr) {
+        total_sum += num;
+    }
+
+    // Step 2: Initialize left_sum and iterate to find the equilibrium point
+    int left_sum = 0;
+    for (int i = 0; i < n; i++) {
+        // Calculate right_sum by subtracting left_sum and arr[i] from total_sum
+        int right_sum = total_sum - left_sum - arr[i];
+        
+        // Check if left_sum equals right_sum
+        if (left_sum == right_sum) {
+            return i + 1; // Return 1-based index
+        }
+
+        // Update left_sum for the next iteration
+        left_sum += arr[i];
+    }
+
+    // If no equilibrium point found, return -1
+    return -1;
+}
+
+int main() {
+    vector<int> arr1 = {1, 3, 5, 2, 2};
+    cout << "Equilibrium Point (Test Case 1): " << equilibriumPoint(arr1) << endl;
+
+    vector<int> arr2 = {1};
+    cout << "Equilibrium Point (Test Case 2): " << equilibriumPoint(arr2) << endl;
+
+    vector<int> arr3 = {1, 2, 3};
+    cout << "Equilibrium Point (Test Case 3): " << equilibriumPoint(arr3) << endl;
+
+    return 0;
+}
