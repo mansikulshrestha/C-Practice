@@ -1,0 +1,62 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    Node(int val) : data(val), next(nullptr) {}
+};
+
+int getKthFromLast(Node* head, int k) {
+    Node* first = head;
+    Node* second = head;
+    
+    // Move first pointer k steps ahead
+    for (int i = 0; i < k; i++) {
+        if (!first) return -1;  // k is greater than the length of the list
+        first = first->next;
+    }
+    
+    // Move both pointers until first reaches the end
+    while (first) {
+        first = first->next;
+        second = second->next;
+    }
+    
+    return second ? second->data : -1;
+}
+
+// Helper function to add a new node at the end
+void appendNode(Node*& head, int data) {
+    Node* newNode = new Node(data);
+    if (!head) {
+        head = newNode;
+        return;
+    }
+    Node* temp = head;
+    while (temp->next) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+}
+
+// Main function to test the code
+int main() {
+    Node* head = nullptr;
+    appendNode(head, 1);
+    appendNode(head, 2);
+    appendNode(head, 3);
+    appendNode(head, 4);
+    appendNode(head, 5);
+    appendNode(head, 6);
+    appendNode(head, 7);
+    appendNode(head, 8);
+    appendNode(head, 9);
+
+    int k = 2;
+    int result = getKthFromLast(head, k);
+    cout << "The " << k << "th node from the end is: " << result << endl;
+
+    return 0;
+}
