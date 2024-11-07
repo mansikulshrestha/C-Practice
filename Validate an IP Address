@@ -1,0 +1,46 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+using namespace std;
+
+bool isValid(string s) {
+    int n = s.length();
+    if (n < 7 || n > 15) return false;  // IPv4 addresses are typically within this length range
+    
+    int countDots = 0;
+    for (char c : s) {
+        if (c == '.') countDots++;
+    }
+    if (countDots != 3) return false;  // IPv4 should have exactly 3 dots
+    
+    stringstream ss(s);
+    string part;
+    int partsCount = 0;
+    
+    while (getline(ss, part, '.')) {
+        partsCount++;
+        
+        // Check if part is a number and within 0-255 range
+        if (part.empty() || part.size() > 3) return false;  // Length check
+        
+        // Check if part has leading zeros
+        if (part.size() > 1 && part[0] == '0') return false;  // Leading zeroes
+        
+        for (char c : part) {
+            if (!isdigit(c)) return false;  // Each part should only contain digits
+        }
+        
+        int num = stoi(part);  // Convert part to integer
+        if (num < 0 || num > 255) return false;  // Check range
+    }
+    
+    return partsCount == 4;  // Must have exactly 4 parts
+}
+
+int main() {
+    string s;
+    cout << "Enter an IP address: ";
+    cin >> s;
+    cout << (isValid(s) ? "true" : "false") << endl;
+    return 0;
+}
